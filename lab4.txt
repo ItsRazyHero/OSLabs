@@ -1,0 +1,48 @@
+maksimka@Kotokit:~$ echo "Hello World" > file1
+maksimka@Kotokit:~$ ls
+file1
+maksimka@Kotokit:~$ cp file1 file2
+maksimka@Kotokit:~$ ls
+file1  file2
+maksimka@Kotokit:~$ ln -s file1 file3
+maksimka@Kotokit:~$ ls
+file1  file2  file3
+maksimka@Kotokit:~$ ln file1 file4
+maksimka@Kotokit:~$ ls
+file1  file2  file3  file4
+maksimka@Kotokit:~$ ls -li
+total 12
+46478 -rw-r--r-- 2 maksimka maksimka 12 Nov 18 14:09 file1
+46479 -rw-r--r-- 1 maksimka maksimka 12 Nov 18 14:09 file2
+46480 lrwxrwxrwx 1 maksimka maksimka  5 Nov 18 14:09 file3 -> file1
+46478 -rw-r--r-- 2 maksimka maksimka 12 Nov 18 14:09 file4
+maksimka@Kotokit:~$ rm file1
+maksimka@Kotokit:~$ cat file1
+cat: file1: No such file or directory
+maksimka@Kotokit:~$ cat file2
+Hello World
+maksimka@Kotokit:~$ cat file3
+cat: file3: No such file or directory
+maksimka@Kotokit:~$ cat file4
+Hello World
+maksimka@Kotokit:~$ mv file2 renamed_file2
+maksimka@Kotokit:~$ mv file4 renamed_file4
+maksimka@Kotokit:~$ ln -s renamed_file4 symlink_to_file4
+maksimka@Kotokit:~$ mkdir new_directory
+maksimka@Kotokit:~$ mv symlink_to_file4 new_directory/
+maksimka@Kotokit:~$ mv file3 new_directory
+maksimka@Kotokit:~$ ls -li new_directory
+total 0
+46480 lrwxrwxrwx 1 maksimka maksimka  5 Nov 18 14:09 file3 -> file1
+46481 lrwxrwxrwx 1 maksimka maksimka 13 Nov 18 14:12 symlink_to_file4 -> renamed_file4
+maksimka@Kotokit:~$ echo 'File for group and others' > fileA
+maksimka@Kotokit:~$ echo 'File for root only' > fileB
+maksimka@Kotokit:~$ chmod 664 fileA
+maksimka@Kotokit:~$ chmod 600 fileB
+maksimka@Kotokit:~$ ls -l
+total 20
+-rw-rw-r-- 1 maksimka maksimka   26 Nov 18 14:13 fileA
+-rw------- 1 maksimka maksimka   19 Nov 18 14:13 fileB
+drwxr-xr-x 2 maksimka maksimka 4096 Nov 18 14:13 new_directory
+-rw-r--r-- 1 maksimka maksimka   12 Nov 18 14:09 renamed_file2
+-rw-r--r-- 1 maksimka maksimka   12 Nov 18 14:09 renamed_file4
