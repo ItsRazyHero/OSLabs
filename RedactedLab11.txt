@@ -1,0 +1,76 @@
+maksimka@ububuntu:~$ sudo apt update
+sudo apt install build-essential linux-headers-$(uname -r)
+[sudo] password for maksimka: 
+Hit:1 http://ru.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://ru.archive.ubuntu.com/ubuntu noble-updates InRelease                                                
+Hit:3 http://ru.archive.ubuntu.com/ubuntu noble-backports InRelease                                              
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease                                
+Hit:5 https://download.docker.com/linux/ubuntu noble InRelease           
+Reading package lists... Done                      
+Building dependency tree... Done
+Reading state information... Done
+17 packages can be upgraded. Run 'apt list --upgradable' to see them.
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+build-essential is already the newest version (12.10ubuntu1).
+linux-headers-6.8.0-51-generic is already the newest version (6.8.0-51.52).
+0 upgraded, 0 newly installed, 0 to remove and 17 not upgraded.
+maksimka@ububuntu:~$ mkdir ~/chardev
+cd ~/chardev
+maksimka@ububuntu:~/chardev$ nano chardev.c
+maksimka@ububuntu:~/chardev$ nano Makefile
+maksimka@ububuntu:~/chardev$ make clean
+make -C /lib/modules/6.8.0-51-generic/build M=/home/maksimka/chardev clean
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-51-generic'
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-51-generic'
+maksimka@ububuntu:~/chardev$ make
+make -C /lib/modules/6.8.0-51-generic/build M=/home/maksimka/chardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-51-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/chardev/chardev.o
+  MODPOST /home/maksimka/chardev/Module.symvers
+  CC [M]  /home/maksimka/chardev/chardev.mod.o
+  LD [M]  /home/maksimka/chardev/chardev.ko
+  BTF [M] /home/maksimka/chardev/chardev.ko
+Skipping BTF generation for /home/maksimka/chardev/chardev.ko due to unavailability of vmlinux
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-51-generic'
+maksimka@ububuntu:~/chardev$ sudo insmod chardev.ko
+maksimka@ububuntu:~/chardev$ dmesg | tail
+dmesg: read kernel buffer failed: Operation not permitted
+maksimka@ububuntu:~/chardev$ sudo dmesg | tail
+[   61.422117] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+[   61.422119] RSP: 002b:0000744c658fc510 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[   61.422121] RAX: ffffffffffffffda RBX: 0000744c658fc5b0 RCX: 0000744c67324ded
+[   61.422122] RDX: 0000744c658fc5b0 RSI: 00000000c0585607 RDI: 0000000000000003
+[   61.422123] RBP: 0000744c658fc560 R08: 0000744c658fc674 R09: 0000000000001000
+[   61.422124] R10: 0000744c54000030 R11: 0000000000000246 R12: 0000744c658fc5b0
+[   61.422125] R13: 0000000000000001 R14: 0000744c540291a0 R15: 00000000000010f4
+[   61.422126]  </TASK>
+[   61.422161] ---[ end trace ]---
+[  508.163758] chardev: Registered with major number 240
+maksimka@ububuntu:~/chardev$ sudo sysctl kernel.dmesg_restrict=0
+kernel.dmesg_restrict = 0
+maksimka@ububuntu:~/chardev$ echo "kernel.dmesg_restrict=0" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+kernel.dmesg_restrict=0
+kernel.dmesg_restrict = 0
+maksimka@ububuntu:~/chardev$ sudo mknod /dev/chardev c <major_number> 0
+bash: major_number: No such file or directory
+maksimka@ububuntu:~/chardev$ sudo mknod /dev/chardev c <0> 0
+bash: syntax error near unexpected token `0'
+maksimka@ububuntu:~/chardev$ sudo mknod /dev/chardev c 240 0
+maksimka@ububuntu:~/chardev$ ls -l /dev/chardev
+crw-r--r-- 1 root root 240, 0 Dec 19 00:14 /dev/chardev
+maksimka@ububuntu:~/chardev$ echo "Hello, Kernel!" > /dev/chardev
+bash: /dev/chardev: Permission denied
+maksimka@ububuntu:~/chardev$ cat /dev/chardev
+maksimka@ububuntu:~/chardev$ sudo chmod 666 /dev/chardev
+maksimka@ububuntu:~/chardev$ ls -l /dev/chardev
+crw-rw-rw- 1 root root 240, 0 Dec 19 00:14 /dev/chardev
+maksimka@ububuntu:~/chardev$ echo "Hello, Kernel!" > /dev/chardev
+maksimka@ububuntu:~/chardev$ cat /dev/chardev
+Hello, Kernel!
+maksimka@ububuntu:~/chardev$ 

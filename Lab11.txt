@@ -1,0 +1,304 @@
+maksimka@maksimka-VirtualBox:~$ sudo apt-get update
+sudo apt-get install build-essential linux-headers-$(uname -r)
+[sudo] password for maksimka: 
+Hit:1 http://ru.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://ru.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]                            
+Hit:3 https://download.docker.com/linux/ubuntu noble InRelease                                                                         
+Hit:4 http://ru.archive.ubuntu.com/ubuntu noble-backports InRelease                                                                    
+Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease           
+Fetched 126 kB in 1s (250 kB/s)
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+build-essential is already the newest version (12.10ubuntu1).
+linux-headers-6.8.0-50-generic is already the newest version (6.8.0-50.51).
+0 upgraded, 0 newly installed, 0 to remove and 17 not upgraded.
+maksimka@maksimka-VirtualBox:~$ mkdir ~/chardev
+maksimka@maksimka-VirtualBox:~$ cd ~/chardev
+maksimka@maksimka-VirtualBox:~/chardev$ nano chardriver.c
+maksimka@maksimka-VirtualBox:~/chardev$ nano Makefile
+maksimka@maksimka-VirtualBox:~/chardev$ make
+Makefile:7: *** missing separator.  Stop.
+maksimka@maksimka-VirtualBox:~/chardev$ nano Makefile
+maksimka@maksimka-VirtualBox:~/chardev$ nano Makefile
+maksimka@maksimka-VirtualBox:~/chardev$ make
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/chardev/chardriver.o
+In file included from ./arch/x86/include/asm/mem_encrypt.h:15,
+                 from ./include/linux/mem_encrypt.h:17,
+                 from ./arch/x86/include/asm/processor-flags.h:6,
+                 from ./arch/x86/include/asm/processor.h:5,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from /home/maksimka/chardev/chardriver.c:1:
+/home/maksimka/chardev/chardriver.c: In function ‘xorwow_init_module’:
+./include/linux/init.h:184:22: error: passing argument 1 of ‘class_create’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  184 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+/home/maksimka/chardev/chardriver.c:126:33: note: in expansion of macro ‘THIS_MODULE’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                                 ^~~~~~~~~~~
+In file included from ./include/linux/device.h:31,
+                 from ./include/linux/cdev.h:8,
+                 from /home/maksimka/chardev/chardriver.c:4:
+./include/linux/device/class.h:228:54: note: expected ‘const char *’ but argument is of type ‘struct module *’
+  228 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+/home/maksimka/chardev/chardriver.c:126:20: error: too many arguments to function ‘class_create’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                    ^~~~~~~~~~~~
+./include/linux/device/class.h:228:29: note: declared here
+  228 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[3]: *** [scripts/Makefile.build:243: /home/maksimka/chardev/chardriver.o] Error 1
+make[2]: *** [/usr/src/linux-headers-6.8.0-50-generic/Makefile:1925: /home/maksimka/chardev] Error 2
+make[1]: *** [Makefile:240: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make: *** [Makefile:7: all] Error 2
+maksimka@maksimka-VirtualBox:~/chardev$ sudo insmod chardriver.ko
+insmod: ERROR: could not load module chardriver.ko: No such file or directory
+maksimka@maksimka-VirtualBox:~/chardev$ make clean
+make
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev clean
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/chardev/chardriver.o
+In file included from ./arch/x86/include/asm/mem_encrypt.h:15,
+                 from ./include/linux/mem_encrypt.h:17,
+                 from ./arch/x86/include/asm/processor-flags.h:6,
+                 from ./arch/x86/include/asm/processor.h:5,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from /home/maksimka/chardev/chardriver.c:1:
+/home/maksimka/chardev/chardriver.c: In function ‘xorwow_init_module’:
+./include/linux/init.h:184:22: error: passing argument 1 of ‘class_create’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  184 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+/home/maksimka/chardev/chardriver.c:126:33: note: in expansion of macro ‘THIS_MODULE’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                                 ^~~~~~~~~~~
+In file included from ./include/linux/device.h:31,
+                 from ./include/linux/cdev.h:8,
+                 from /home/maksimka/chardev/chardriver.c:4:
+./include/linux/device/class.h:228:54: note: expected ‘const char *’ but argument is of type ‘struct module *’
+  228 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+/home/maksimka/chardev/chardriver.c:126:20: error: too many arguments to function ‘class_create’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                    ^~~~~~~~~~~~
+./include/linux/device/class.h:228:29: note: declared here
+  228 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[3]: *** [scripts/Makefile.build:243: /home/maksimka/chardev/chardriver.o] Error 1
+make[2]: *** [/usr/src/linux-headers-6.8.0-50-generic/Makefile:1925: /home/maksimka/chardev] Error 2
+make[1]: *** [Makefile:240: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make: *** [Makefile:7: all] Error 2
+maksimka@maksimka-VirtualBox:~/chardev$ cd ~/chardev         
+ls -l
+total 12
+-rw-rw-r-- 1 maksimka maksimka  178 Dec 18 21:26 Makefile
+-rw-rw-r-- 1 maksimka maksimka 4279 Dec 18 21:24 chardriver.c
+maksimka@maksimka-VirtualBox:~/chardev$ sudo apt-get install build-essential linux-headers-$(uname -r)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+build-essential is already the newest version (12.10ubuntu1).
+linux-headers-6.8.0-50-generic is already the newest version (6.8.0-50.51).
+0 upgraded, 0 newly installed, 0 to remove and 17 not upgraded.
+maksimka@maksimka-VirtualBox:~/chardev$ sudo insmod chardriver.ko
+insmod: ERROR: could not load module chardriver.ko: No such file or directory
+maksimka@maksimka-VirtualBox:~/chardev$ make
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/chardev/chardriver.o
+In file included from ./arch/x86/include/asm/mem_encrypt.h:15,
+                 from ./include/linux/mem_encrypt.h:17,
+                 from ./arch/x86/include/asm/processor-flags.h:6,
+                 from ./arch/x86/include/asm/processor.h:5,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from /home/maksimka/chardev/chardriver.c:1:
+/home/maksimka/chardev/chardriver.c: In function ‘xorwow_init_module’:
+./include/linux/init.h:184:22: error: passing argument 1 of ‘class_create’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  184 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+/home/maksimka/chardev/chardriver.c:126:33: note: in expansion of macro ‘THIS_MODULE’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                                 ^~~~~~~~~~~
+In file included from ./include/linux/device.h:31,
+                 from ./include/linux/cdev.h:8,
+                 from /home/maksimka/chardev/chardriver.c:4:
+./include/linux/device/class.h:228:54: note: expected ‘const char *’ but argument is of type ‘struct module *’
+  228 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+/home/maksimka/chardev/chardriver.c:126:20: error: too many arguments to function ‘class_create’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                    ^~~~~~~~~~~~
+./include/linux/device/class.h:228:29: note: declared here
+  228 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[3]: *** [scripts/Makefile.build:243: /home/maksimka/chardev/chardriver.o] Error 1
+make[2]: *** [/usr/src/linux-headers-6.8.0-50-generic/Makefile:1925: /home/maksimka/chardev] Error 2
+make[1]: *** [Makefile:240: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make: *** [Makefile:7: all] Error 2
+maksimka@maksimka-VirtualBox:~/chardev$ sudo apt-get install build-essential linux-headers-$(uname -r)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+build-essential is already the newest version (12.10ubuntu1).
+linux-headers-6.8.0-50-generic is already the newest version (6.8.0-50.51).
+0 upgraded, 0 newly installed, 0 to remove and 17 not upgraded.
+maksimka@maksimka-VirtualBox:~/chardev$ sudo apt-get update
+sudo apt-get install build-essential linux-headers-$(uname -r)
+Hit:1 http://ru.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://ru.archive.ubuntu.com/ubuntu noble-updates InRelease                                                              
+Hit:3 http://ru.archive.ubuntu.com/ubuntu noble-backports InRelease                                                            
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease                               
+Hit:5 https://download.docker.com/linux/ubuntu noble InRelease           
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+build-essential is already the newest version (12.10ubuntu1).
+linux-headers-6.8.0-50-generic is already the newest version (6.8.0-50.51).
+0 upgraded, 0 newly installed, 0 to remove and 17 not upgraded.
+maksimka@maksimka-VirtualBox:~/chardev$ cd ~/chardev         
+make clean
+make
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev clean
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/chardev modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/chardev/chardriver.o
+In file included from ./arch/x86/include/asm/mem_encrypt.h:15,
+                 from ./include/linux/mem_encrypt.h:17,
+                 from ./arch/x86/include/asm/processor-flags.h:6,
+                 from ./arch/x86/include/asm/processor.h:5,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from /home/maksimka/chardev/chardriver.c:1:
+/home/maksimka/chardev/chardriver.c: In function ‘xorwow_init_module’:
+./include/linux/init.h:184:22: error: passing argument 1 of ‘class_create’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  184 | #define THIS_MODULE (&__this_module)
+      |                     ~^~~~~~~~~~~~~~~
+      |                      |
+      |                      struct module *
+/home/maksimka/chardev/chardriver.c:126:33: note: in expansion of macro ‘THIS_MODULE’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                                 ^~~~~~~~~~~
+In file included from ./include/linux/device.h:31,
+                 from ./include/linux/cdev.h:8,
+                 from /home/maksimka/chardev/chardriver.c:4:
+./include/linux/device/class.h:228:54: note: expected ‘const char *’ but argument is of type ‘struct module *’
+  228 | struct class * __must_check class_create(const char *name);
+      |                                          ~~~~~~~~~~~~^~~~
+/home/maksimka/chardev/chardriver.c:126:20: error: too many arguments to function ‘class_create’
+  126 |     xorwow_class = class_create(THIS_MODULE, DEVICE_NAME);
+      |                    ^~~~~~~~~~~~
+./include/linux/device/class.h:228:29: note: declared here
+  228 | struct class * __must_check class_create(const char *name);
+      |                             ^~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[3]: *** [scripts/Makefile.build:243: /home/maksimka/chardev/chardriver.o] Error 1
+make[2]: *** [/usr/src/linux-headers-6.8.0-50-generic/Makefile:1925: /home/maksimka/chardev] Error 2
+make[1]: *** [Makefile:240: __sub-make] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+make: *** [Makefile:7: all] Error 2
+maksimka@maksimka-VirtualBox:~/chardev$ ls -l chardriver.ko
+ls: cannot access 'chardriver.ko': No such file or directory
+maksimka@maksimka-VirtualBox:~/chardev$ cd ~
+maksimka@maksimka-VirtualBox:~$ ls
+chardev             docker-nginx-php  DS:in:COUNTER:600:U:U   Pictures               --step        text.txt            traffic.rrd
+driverdir    Documents         DS:out:COUNTER:600:U:U  Public                 Templates     traffic_graph.sh    Videos
+collect_traffic.sh  Downloads         Music                   RRA:AVERAGE:0.5:1:288  test.txt      traffic_monitor.sh  xorshift_chardev
+Desktop             driver            my_fifo                 snap                   test.txt.bak  traffic.png         xorwow_driver
+maksimka@maksimka-VirtualBox:~$ cd driverdir
+maksimka@maksimka-VirtualBox:~/driverdir$ nano chardriver.o
+maksimka@maksimka-VirtualBox:~/driverdir$ nano chardriver.c
+maksimka@maksimka-VirtualBox:~/driverdir$ nano Makefile
+maksimka@maksimka-VirtualBox:~/driverdir$ make
+make -C /lib/modules/6.8.0-50-generic/build M=/home/maksimka/driverdir modules
+make[1]: Entering directory '/usr/src/linux-headers-6.8.0-50-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/maksimka/driverdir/chardriver.o
+  MODPOST /home/maksimka/driverdir/Module.symvers
+  LD [M]  /home/maksimka/driverdir/chardriver.ko
+  BTF [M] /home/maksimka/driverdir/chardriver.ko
+Skipping BTF generation for /home/maksimka/driverdir/chardriver.ko due to unavailability of vmlinux
+make[1]: Leaving directory '/usr/src/linux-headers-6.8.0-50-generic'
+maksimka@maksimka-VirtualBox:~/driverdir$ sudo insmod chardriver.ko
+maksimka@maksimka-VirtualBox:~/driverdir$ dmesg | tail
+dmesg: read kernel buffer failed: Operation not permitted
+maksimka@maksimka-VirtualBox:~/driverdir$ sudo insmod chardriver.ko
+insmod: ERROR: could not insert module chardriver.ko: File exists
+maksimka@maksimka-VirtualBox:~/driverdir$ sudo dmesg | tail
+[  161.963927] R13: 0000000000000001 R14: 000073f688029c70 R15: 0000000000001f4c
+[  161.963929]  </TASK>
+[  161.964101] ---[ end trace ]---
+[  233.322933] Invalid ELF header magic: != \x7fELF
+[  789.359312] clocksource: Long readout interval, skipping watchdog check: cs_nsec: 1007979706 wd_nsec: 1007979469
+[ 1553.725708] audit: type=1400 audit(1734544815.160:165): apparmor="DENIED" operation="capable" class="cap" profile="/usr/lib/snapd/snap-confine" pid=3629 comm="snap-confine" capability=12  capname="net_admin"
+[ 1553.725736] audit: type=1400 audit(1734544815.160:166): apparmor="DENIED" operation="capable" class="cap" profile="/usr/lib/snapd/snap-confine" pid=3629 comm="snap-confine" capability=38  capname="perfmon"
+[ 1553.831175] audit: type=1400 audit(1734544815.265:167): apparmor="DENIED" operation="open" class="file" profile="snap-update-ns.firmware-updater" name="/proc/3650/maps" pid=3650 comm="5" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
+[ 1554.014807] audit: type=1400 audit(1734544815.449:168): apparmor="DENIED" operation="open" class="file" profile="snap.firmware-updater.firmware-notifier" name="/proc/sys/vm/max_map_count" pid=3629 comm="firmware-notifi" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
+[ 3538.350297] xorwow device registered successfully
+maksimka@maksimka-VirtualBox:~/driverdir$ dmesg | tail
+dmesg: read kernel buffer failed: Operation not permitted
+maksimka@maksimka-VirtualBox:~/driverdir$ sudo chmod 666 /dev/xorwow
+maksimka@maksimka-VirtualBox:~/driverdir$ ls -l chardriver.ko
+-rw-rw-r-- 1 maksimka maksimka 339456 Dec 18 21:33 chardriver.ko
+maksimka@maksimka-VirtualBox:~/driverdir$ dd if=/dev/xorwow of=out.bin bs=7 count=7
+hexdump -C out.bin
+dd: warning: partial read (4 bytes); suggest iflag=fullblock
+0+7 records in
+0+7 records out
+28 bytes copied, 0.000115221 s, 243 kB/s
+00000000  96 bd 19 af 3f 2c c9 d5  0c b5 ac a9 52 1b ce e4  |....?,......R...|
+00000010  9a b2 2d a8 28 13 70 f2  da ec ae 00              |..-.(.p.....|
+0000001c

@@ -1,0 +1,66 @@
+1) Creating file with echo:
+	maksimka@ubuntulinux:~/Documents$ echo "Test123 meow" > test.txt
+	maksimka@ubuntulinux:~/Documents$ ls
+	otchet2.txt  otchet3.txt  test.txt
+
+
+
+1.1) Moving errors into exact file:
+	maksimka@ubuntu:~/Documents$ cat /etc/* 2> errors.txt
+	*** A LOT OF TEXT ***
+	
+	
+	
+2) Conveyor pipeline to return list with only accesses to file:
+!Filtration with sort and uniq
+	maksimka@ubuntulinux:~/Documents$ ls -l | cut -c 1-10 | sort | uniq
+	-rw-rw-r--
+	-rw-rw-rw-
+	total 24
+ 
+ -l : full list // cut -c 1-10 : access rights
+ 
+ 
+ 
+ 3) Process control:
+ !changing  SSH config / disabling auth with login
+ 	root@ubuntulinux:/home/maksimka# nano /etc/ssh/sshd_config
+ 	#PasswordAuthentication yes->no
+ 	root@ubuntulinux:/home/maksimka# service sshd restart
+ 	#PasswordAuthentication no->yes
+ 	root@ubuntulinux:/home/maksimka# service sshd reload
+ 	
+ 	restart is for powering off the utility and killing all connections
+ 	reload is just for 'reloading' configuration
+ 	
+ 
+ 
+ 3.1) Creating file with cat:
+ 	root@ubuntulinux:/home/maksimka# cat > new_file.txt
+	eto sample text lalal
+	meowroot@ubuntulinux:/home/maksimka# (I pressed CtrlSihftD)
+	
+
+
+4) Process signals:
+!Launching Midnight Commander
+	mc
+
+4.1) Getting PID by checking process:
+	maksimka@ubuntulinux:~$ ps aux | grep mc
+	maksimka    2926  0.0  0.0   9536  2560 pts/0    S+   16:37   0:00 grep --color=auto mc
+
+
+	
+4.2) Killing process via signal
+	maksimka@ubuntulinux:~$ ps aux | grep mc
+	maksimka    3494  0.0  0.2  23224  9984 pts/0    S+   16:44   0:00 mc
+	maksimka    3566  0.0  0.0   9536  2560 pts/2    S+   16:45   0:00 grep --color=auto mc
+	maksimka@ubuntulinux:~$ kill -9 3494
+
+
+
+
+ 
+ 
+ 
